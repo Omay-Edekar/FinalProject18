@@ -4,16 +4,6 @@ import random
 
 pygame.init()
 
-allowed_move = pygame.Surface((45, 45))
-allowed_move.set_alpha(128)
-allowed_move.fill((79, 121, 66))
-
-selected_move = pygame.Surface((45, 45))
-selected_move.set_alpha(192)
-selected_move.fill((255, 0, 0))
-
-
-class Piece(pygame.sprite.Sprite):
     def __init__(self, rect_x, rect_y):
         super().__init__()
         self.image = pygame.Surface((45, 45))
@@ -24,10 +14,10 @@ class Piece(pygame.sprite.Sprite):
         self.pos = (self.rect.x, self.rect.y)
         self.type = 'piece'
 
-    def move(self, screen):
+    def move(self, screen, all_sprites_list):
         key = pygame.key.get_pressed()
         move_spaces = []
-        done = False
+        not_selected = True
 
         pos_1 = (self.rect.x - 90, self.rect.y - 90)
         pos_2 = (self.rect.x - 90, self.rect.y - 45)
@@ -64,29 +54,33 @@ class Piece(pygame.sprite.Sprite):
         move_spaces.append(pos_16)
 
         move_spaces[:] = [tup for tup in move_spaces if not (tup[0] < 45 or tup[0] > 720 or tup[1] < 45 or tup[1] > 720)]
-
-        screen.blit(constants.get_image("chessboard.png"), (0, 0))
+        
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
         for tup in move_spaces:
-            screen.blit(allowed_move, tup)
-        screen.blit(selected_move, move_spaces[constants.n])
+            screen.blit(constants.ALLOWEDMOVE, tup)
         if key[pygame.K_RIGHT]:
-            print("right")
-            constants.n += 1
+            constants.N += 1
         if key[pygame.K_LEFT]:
-            print("left")
-            constants.n -= 1
-        print(constants.n)
-        if constants.n >= 16:
-            constants.n = 0
-        if constants.n <= -16:
-            constants.n = 0
-        screen.blit(selected_move, move_spaces[constants.n])
+            constants.N -= 1
+        if constants.N >= 16:
+            constants.N = 0
+        if constants.N <= -16:
+            constants.N = 0
+        screen.blit(constants.SELECTEDMOVE, move_spaces[constants.N])
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                self.rect.x = move_spaces[constants.N][0]
+                self.rect.y = move_spaces[constants.N][1]
+                self.pos = move_spaces[constants.N]
+                constants.C = 2
             
     
 # class Enemy_Pawn(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/pd.png")
+#         self.image = constants.GETIMAGE("pieces/pd.png")
 #         self.type = 'pawn'
 #         if self.rect.x == 45:
 #             self.direction = 'left'
@@ -101,35 +95,35 @@ class Piece(pygame.sprite.Sprite):
 # class Enemy_Knight(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/nd.png")
+#         self.image = constants.GETIMAGE("pieces/nd.png")
 #         self.type = 'knight'
 
 
 # class Enemy_Bishop(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/bd.png")
+#         self.image = constants.GETIMAGE("pieces/bd.png")
 #         self.type = 'bishop'
 
 
 # class Enemy_Rook(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/rd.png")
+#         self.image = constants.GETIMAGE("pieces/rd.png")
 #         self.type = 'rook'
 
 
 # class Enemy_Queen(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/qd.png")
+#         self.image = constants.GETIMAGE("pieces/qd.png")
 #         self.type = 'queen'
 
 
 # class Enemy_King(Piece):
 #     def __init__(self):
 #         super().__init__()
-#         self.image = constants.get_image("pieces/kd.png")
+#         self.image = constants.GETIMAGE("pieces/kd.png")
 #         self.type = 'king'
 
 

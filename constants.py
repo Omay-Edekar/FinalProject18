@@ -4,16 +4,24 @@ import sys
 
 pygame.init()
 
-clock = pygame.time.Clock()
-n = 0
-i = 0
-key = pygame.key.get_pressed()
+CLOCK = pygame.time.Clock()
+N = 0
+I = 0
+C = 0
 
-pos_x_list = [45, 90, 135, 180, 225, 270, 315, 360,
+ALLOWEDMOVE = pygame.Surface((45, 45))
+ALLOWEDMOVE.set_alpha(128)
+ALLOWEDMOVE.fill((79, 121, 66))
+
+SELECTEDMOVE = pygame.Surface((45, 45))
+SELECTEDMOVE.set_alpha(192)
+SELECTEDMOVE.fill((255, 0, 0))
+
+POSXLIST = [45, 90, 135, 180, 225, 270, 315, 360,
               405, 450, 495, 540, 585, 630, 675, 720]
-pos_y_list = [45, 90, 135, 180, 225, 270, 315, 360,
+POSYLIST = [45, 90, 135, 180, 225, 270, 315, 360,
               405, 450, 495, 540, 585, 630, 675, 720]
-pos_list = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45), (135, 720),
+POSLIST = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45), (135, 720),
             (180, 45), (180, 720), (225, 45), (225, 720), (270, 45),
             (270, 720), (315, 45), (315, 720), (360, 45), (360, 720),
             (405, 45), (405, 720), (450, 45), (450, 720), (495, 45),
@@ -30,7 +38,7 @@ pos_list = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45), (135, 720),
 _image_library = {}
 
 
-def get_image(path):
+def GETIMAGE(path):
     global _image_library
     image = _image_library.get(path)
     if image is None:
