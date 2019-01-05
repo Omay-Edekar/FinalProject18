@@ -4,6 +4,7 @@ import random
 
 pygame.init()
 
+class Piece(pygame.sprite.Sprite):
     def __init__(self, rect_x, rect_y):
         super().__init__()
         self.image = pygame.Surface((45, 45))
@@ -69,12 +70,13 @@ pygame.init()
             constants.N = 0
         screen.blit(constants.SELECTEDMOVE, move_spaces[constants.N])
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                self.rect.x = move_spaces[constants.N][0]
-                self.rect.y = move_spaces[constants.N][1]
-                self.pos = move_spaces[constants.N]
-                constants.C = 2
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self.rect.x = move_spaces[constants.N][0]
+                    self.rect.y = move_spaces[constants.N][1]
+                    self.pos = move_spaces[constants.N]
+                    constants.C = 2
             
     
 # class Enemy_Pawn(Piece):

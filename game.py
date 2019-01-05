@@ -18,7 +18,7 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and constants.C == 0:
                 constants.C = 1
 
     screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
@@ -32,9 +32,10 @@ while not done:
     if constants.C == 2:
         #enemy movements
         #set C to 3
+        pass
     
     if constants.C == 3:
-        constantsC.C = 0
+        constants.C = 0
 
     constants.I += 1
     print(f"I: {constants.I}")
