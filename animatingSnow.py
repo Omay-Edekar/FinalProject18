@@ -19,7 +19,7 @@ BLACK = [0, 0, 0]
 WHITE = [255, 255, 255]
  
 # Set the height and width of the screen
-SIZE = [400, 400]
+SIZE = [1920, 1080]
  
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption("Snow Animation")
@@ -28,9 +28,9 @@ pygame.display.set_caption("Snow Animation")
 snow_list = []
  
 # Loop 50 times and add a snow flake in a random x,y position
-for i in range(50):
-    x = random.randrange(0, 400)
-    y = random.randrange(0, 400)
+for i in range(150):
+    x = random.randrange(0, SIZE[0])
+    y = random.randrange(0, SIZE[1])
     snow_list.append([x, y])
  
 clock = pygame.time.Clock()
@@ -42,6 +42,9 @@ while not done:
     for event in pygame.event.get():   # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             done = True   # Flag that we are done so we exit this loop
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE or pygame.K_RETURN or pygame.K_ESCAPE or pygame.K_END:
+                done = True
  
     # Set the screen background
     screen.fill(BLACK)
@@ -56,12 +59,12 @@ while not done:
         snow_list[i][1] += 1
  
         # If the snow flake has moved off the bottom of the screen
-        if snow_list[i][1] > 400:
+        if snow_list[i][1] > SIZE[1]:
             # Reset it just above the top
             y = random.randrange(-50, -10)
             snow_list[i][1] = y
             # Give it a new x position
-            x = random.randrange(0, 400)
+            x = random.randrange(0, SIZE[0])
             snow_list[i][0] = x
  
     # Go ahead and update the screen with what we've drawn.
