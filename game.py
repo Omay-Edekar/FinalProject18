@@ -12,7 +12,8 @@ all_sprites_list = pygame.sprite.Group()
 pawn_count = 0
 turn = 1
  
-start_button = constants.Button(225, 500, 360, 90, "Controls", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
+start_button = constants.Button(225, 450, 360, 90, "Controls", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
+play_button = constants.Button(225, 540, 360, 90, "Start Game", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
 
 #initialize pieces and players
 piece = pieces.Piece(405, 405)
@@ -55,7 +56,29 @@ while not constants.DONE:
         text_rect.center = (405, 300)
         screen.blit(text_surface, text_rect)
 
-        start_button.click(screen, constants.INCREASES)
+        start_button.click(screen, constants.INCREASESTO1)
+
+    if constants.S == 1:
+        screen.fill(constants.WHITE)
+        title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)
+        text_surface, text_rect = constants.TEXTOBJECT("Controls", title_font, constants.BLACK)
+        text_rect.center = (405, 300)
+        screen.blit(text_surface, text_rect)
+
+        paragraph_font = pygame.font.Font('GaramondNo8-Regular.ttf', 30)
+        text_surface, text_rect = constants.TEXTOBJECT("Press Space to start each turn", paragraph_font, constants.BLACK)
+        text_rect.center = (405, 405)
+        screen.blit(text_surface, text_rect)
+
+        text_surface, text_rect = constants.TEXTOBJECT("Press Enter to confirm your move", paragraph_font, constants.BLACK)
+        text_rect.center = (405, 450)
+        screen.blit(text_surface, text_rect)
+
+        text_surface, text_rect = constants.TEXTOBJECT("Objective: Capture all pawns", paragraph_font, constants.BLACK)
+        text_rect.center = (405, 495)
+        screen.blit(text_surface, text_rect)
+
+        play_button.click(screen, constants.INCREASESTO2)
 
     if constants.S == 2:
 

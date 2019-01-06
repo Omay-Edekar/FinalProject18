@@ -70,9 +70,13 @@ def TEXTOBJECT(text, font, color):
     text_surface = font.render(text, True, color)
     return text_surface, text_surface.get_rect()
 
-def INCREASES():
+def INCREASESTO1():
     global S
-    S += 1
+    S = 1
+
+def INCREASESTO2():
+    global S
+    S = 2
 
 class Button(pygame.Rect):
 
