@@ -8,7 +8,7 @@ class Piece(pygame.sprite.Sprite):
     def __init__(self, rect_x, rect_y):
         super().__init__()
         self.image = pygame.Surface((45, 45))
-        self.image.fill((128, 128, 128))
+        self.image.fill((0, 0, 255))
         self.rect = self.image.get_rect()
         self.rect.x = rect_x
         self.rect.y = rect_y
@@ -64,34 +64,89 @@ class Piece(pygame.sprite.Sprite):
             constants.N += 1
         if key[pygame.K_LEFT]:
             constants.N -= 1
-        if constants.N >= 16:
+
+        try:
+            screen.blit(constants.SELECTEDMOVE, move_spaces[constants.N])
+        except IndexError:
             constants.N = 0
-        if constants.N <= -16:
-            constants.N = 0
-        screen.blit(constants.SELECTEDMOVE, move_spaces[constants.N])
+            screen.blit(constants.SELECTEDMOVE, move_spaces[constants.N])
 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
+                    screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+                    all_sprites_list.draw(screen)
+                    pygame.display.flip()
+
                     self.rect.x = move_spaces[constants.N][0]
                     self.rect.y = move_spaces[constants.N][1]
                     self.pos = move_spaces[constants.N]
+                    screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+                    all_sprites_list.draw(screen)
+
+                    constants.N = 0
                     constants.C = 2
-            
+
+    def capture(self, enemy_list, enemy_count, screen, all_sprites_list):
+        for enemy in enemy_list:
+            if enemy.pos == self.pos:
+                enemy_count -= 1
+                self.type = enemy.type
+                all_sprites_list.remove(enemy)
+                enemy_list.remove(enemy)
+                enemy = None
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+        return enemy_count
+
+
+class Enemy_Pawn(Piece):
+    def __init__(self, rect_x, rect_y):
+        super().__init__(rect_x, rect_y)
+        self.image = constants.GETIMAGE("pieces/pd.png")
+        self.type = 'pawn'
+        if self.rect.x == 45:
+            self.direction = 'left'
+        elif self.rect.x == 720:
+            self.direction = 'right'
+        elif self.rect.y == 45:
+            self.direction = 'down'
+        elif self.rect.y == 720:
+            self.direction = 'up'
     
-# class Enemy_Pawn(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/pd.png")
-#         self.type = 'pawn'
-#         if self.rect.x == 45:
-#             self.direction = 'left'
-#         elif self.rect.x == 720:
-#             self.direction = 'right'
-#         elif self.rect.y == 45:
-#             self.direction = 'down'
-#         elif self.rect.y == 720:
-#             self.direction = 'up'
+    def move(self, screen, all_sprites_list):
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+        if self.direction == 'left':
+            self.rect.x += 45
+        elif self.direction == 'right':
+            self.rect.x -= 45
+        elif self.direction == 'down':
+            self.rect.y += 45
+        elif self.direction == "up":
+            self.rect.y -= 45    
+        self.pos = (self.rect.x, self.rect.y)
+
+    def turn(self, screen, all_sprites_list):
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+        if self.direction == 'left' and self.rect.x == 720:
+            self.direction = 'right'
+        elif self.direction == 'right' and self.rect.x == 45:
+            self.direction = 'left'
+        elif self.direction == 'down' and self.rect.y == 720:
+            self.direction = 'up'
+        elif self.direction == "up" and self.rect.y == 45:
+            self.direction = 'down'
+
+    def capture(self, player, screen, all_sprites_list):
+        if self.pos == player.pos:
+            all_sprites_list.remove(player)
+            player = None
+            constants.DONE = True
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+
 
 
 # class Enemy_Knight(Piece):
