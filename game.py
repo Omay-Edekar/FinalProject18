@@ -171,7 +171,6 @@ while not constants.DONE:
             constants.C = 0
 
     if constants.S == 500:
-        print("S is 500")
         if pawn_count > 0:
             screen.fill(constants.WHITE)
             title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)
