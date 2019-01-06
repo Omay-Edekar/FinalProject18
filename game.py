@@ -117,30 +117,23 @@ while not constants.DONE:
 
         if constants.C == -1:
             pawn_spawn()
-
-            turn_text(turn, pawn_count, screen)
-
             constants.C = 0
 
         if constants.C == 1:
             piece.move(screen, all_sprites_list)
-
             turn_text(turn, pawn_count, screen)
+
 
         if constants.C == 2:
             pawn_count = piece.capture(pawn_list, pawn_count, screen, all_sprites_list)
-
             turn_text(turn, pawn_count, screen)
-
             constants.C = 3
 
         if constants.C == 3:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-
                 turn_text(turn, pawn_count, screen)
-
                 pygame.display.flip()
                 pygame.time.wait(1)
 
@@ -150,29 +143,28 @@ while not constants.DONE:
             for pawn in pawn_list:
                 pawn.move(screen, all_sprites_list)
                 pawn.turn(screen, all_sprites_list)
+                all_sprites_list.draw(screen)
                 turn_text(turn, pawn_count, screen)
+                pygame.display.flip()
+                pygame.time.wait(25)
             constants.C = 5
 
         if constants.C == 5:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-
                 turn_text(turn, pawn_count, screen)
-
                 pygame.display.flip()
                 pygame.time.wait(1)
 
             constants.C = 6
 
-        all_sprites_list.draw(screen)
-        pygame.display.flip()
-
         if constants.C == 6:
             for pawn in pawn_list:
                 pawn.capture(piece, screen, all_sprites_list)
-
+                all_sprites_list.draw(screen)
                 turn_text(turn, pawn_count, screen)
+                pygame.display.flip()
 
             turn += 1
             constants.C = 0
