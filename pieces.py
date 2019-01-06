@@ -4,6 +4,7 @@ import random
 
 pygame.init()
 
+
 class Piece(pygame.sprite.Sprite):
     def __init__(self, rect_x, rect_y):
         super().__init__()
@@ -55,7 +56,7 @@ class Piece(pygame.sprite.Sprite):
         move_spaces.append(pos_16)
 
         move_spaces[:] = [tup for tup in move_spaces if not (tup[0] < 45 or tup[0] > 720 or tup[1] < 45 or tup[1] > 720)]
-        
+
         screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
         all_sprites_list.draw(screen)
         for tup in move_spaces:
@@ -113,7 +114,7 @@ class Enemy_Pawn(Piece):
             self.direction = 'down'
         elif self.rect.y == 720:
             self.direction = 'up'
-    
+
     def move(self, screen, all_sprites_list):
         screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
         all_sprites_list.draw(screen)
@@ -124,7 +125,7 @@ class Enemy_Pawn(Piece):
         elif self.direction == 'down':
             self.rect.y += 45
         elif self.direction == "up":
-            self.rect.y -= 45    
+            self.rect.y -= 45
         self.pos = (self.rect.x, self.rect.y)
 
     def turn(self, screen, all_sprites_list):
@@ -146,7 +147,6 @@ class Enemy_Pawn(Piece):
             constants.S = 500
         screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
         all_sprites_list.draw(screen)
-
 
 
 # class Enemy_Knight(Piece):

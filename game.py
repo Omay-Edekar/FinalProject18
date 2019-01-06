@@ -3,7 +3,7 @@ import pieces
 import constants
 import random
 
-#initialize variables and game
+# initialize variables and game
 pygame.init()
 screen = pygame.display.set_mode((810, 810))
 pygame.display.set_caption("Copycat Chess")
@@ -11,11 +11,11 @@ pawn_list = pygame.sprite.Group()
 all_sprites_list = pygame.sprite.Group()
 pawn_count = 0
 turn = 1
- 
+
 start_button = constants.Button(225, 495, 360, 90, "Controls", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
 play_button = constants.Button(225, 595, 360, 90, "Start Game", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
 
-#initialize pieces and players
+# initialize pieces and players
 piece = pieces.Piece(405, 405)
 all_sprites_list.add(piece)
 
@@ -33,6 +33,7 @@ def turn_text(turn, pawn_count, screen):
     text_rect.center = (910/3, 45/2)
     screen.blit(text_surface, text_rect)
 
+
 def pawn_spawn():
     global pawn_count
     for i in range(16):
@@ -40,20 +41,21 @@ def pawn_spawn():
         pos = random.choice(constants.PAWNPOSLIST)
         rect_x = pos[0]
         rect_y = pos[1]
-    
+
         # removes possible position
         constants.PAWNPOSLIST.remove(pos)
 
         # This represents a pawn
         pawn = pieces.Enemy_Pawn(rect_x, rect_y)
- 
+
         # Add the block to the list of objects
         pawn_list.add(pawn)
         all_sprites_list.add(pawn)
 
         pawn_count += 1
 
-#game play
+
+# game play
 while not constants.DONE:
 
     for event in pygame.event.get():
@@ -63,7 +65,7 @@ while not constants.DONE:
             if event.key == pygame.K_SPACE and constants.S == 2 and constants.C == 0:
                 constants.C = 1
     if pawn_count == 0 and constants.S == 2:
-        constants.S = 500        
+        constants.S = 500
 
     if constants.S == 0:
         screen.fill(constants.WHITE)
