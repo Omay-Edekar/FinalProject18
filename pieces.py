@@ -143,7 +143,7 @@ class Enemy_Pawn(Piece):
         if self.pos == player.pos:
             all_sprites_list.remove(player)
             player = None
-            constants.DONE = True
+            constants.S = 500
         screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
         all_sprites_list.draw(screen)
 
