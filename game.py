@@ -80,11 +80,15 @@ while not constants.DONE:
         screen.fill(constants.WHITE)
         title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)
         text_surface, text_rect = constants.TEXTOBJECT("Controls", title_font, constants.BLACK)
-        text_rect.center = (405, 300)
+        text_rect.center = (405, 270)
         screen.blit(text_surface, text_rect)
 
         paragraph_font = pygame.font.Font('GaramondNo8-Regular.ttf', 30)
         text_surface, text_rect = constants.TEXTOBJECT("Press Space to start each turn", paragraph_font, constants.BLACK)
+        text_rect.center = (405, 360)
+        screen.blit(text_surface, text_rect)
+
+        text_surface, text_rect = constants.TEXTOBJECT("Use Arrow Keys to select your move", paragraph_font, constants.BLACK)
         text_rect.center = (405, 405)
         screen.blit(text_surface, text_rect)
 
@@ -145,6 +149,7 @@ while not constants.DONE:
         if constants.C == 4:
             for pawn in pawn_list:
                 pawn.move(screen, all_sprites_list)
+                pawn.turn(screen, all_sprites_list)
                 turn_text(turn, pawn_count, screen)
             constants.C = 5
 
