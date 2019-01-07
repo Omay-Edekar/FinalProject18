@@ -22,6 +22,8 @@ SELECTEDMOVE = pygame.Surface((45, 45))
 SELECTEDMOVE.set_alpha(192)
 SELECTEDMOVE.fill((255, 0, 0))
 
+PIECETYPES = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king']
+
 POSXLIST = [45, 90, 135, 180, 225, 270, 315, 360,
             405, 450, 495, 540, 585, 630, 675, 720]
 POSYLIST = [45, 90, 135, 180, 225, 270, 315, 360,

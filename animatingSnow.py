@@ -42,9 +42,6 @@ while not done:
     for event in pygame.event.get():   # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             done = True   # Flag that we are done so we exit this loop
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE or pygame.K_RETURN or pygame.K_ESCAPE or pygame.K_END:
-                done = True
  
     # Set the screen background
     screen.fill(BLACK)

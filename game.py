@@ -34,9 +34,9 @@ def turn_text(turn, pawn_count, screen):
     screen.blit(text_surface, text_rect)
 
 
-def pawn_spawn():
+def pawn_spawn(num):
     global pawn_count
-    for i in range(16):
+    for i in range(num):
         # Set a random location for the block
         pos = random.choice(constants.PAWNPOSLIST)
         rect_x = pos[0]
@@ -116,16 +116,18 @@ while not constants.DONE:
         turn_text(turn, pawn_count, screen)
 
         if constants.C == -1:
-            pawn_spawn()
+            pawn_spawn(16)
+            piece.update_sprite()
             constants.C = 0
 
         if constants.C == 1:
             piece.move(screen, all_sprites_list)
+            piece.update_sprite()
             turn_text(turn, pawn_count, screen)
-
 
         if constants.C == 2:
             pawn_count = piece.capture(pawn_list, pawn_count, screen, all_sprites_list)
+            piece.update_sprite()
             turn_text(turn, pawn_count, screen)
             constants.C = 3
 
