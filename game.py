@@ -65,7 +65,7 @@ while not constants.DONE:
             if event.key == pygame.K_SPACE and constants.S == 2 and constants.C == 0:
                 constants.C = 1
     if pawn_count == 0 and constants.S == 2:
-        constants.S = 500
+        constants.S = 'END'
 
     if constants.S == 0:
         screen.fill(constants.WHITE)
@@ -171,7 +171,7 @@ while not constants.DONE:
             turn += 1
             constants.C = 0
 
-    if constants.S == 500:
+    if constants.S == 'END':
         if pawn_count > 0:
             screen.fill(constants.WHITE)
             title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)

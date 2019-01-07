@@ -4,16 +4,31 @@ import sys
 
 pygame.init()
 
+#Utility Constants
 CLOCK = pygame.time.Clock()
-DONE = False
+
+#Counting Constants
 N = 0
 C = -1
 S = 0
+
+#Color Constants
 WHITE = (232, 221, 201)
 BLACK = (57, 59, 58)
 LIGHTBLACK = (70, 72, 71)
 BROWN = (150, 81, 16)
 
+
+#Boolean Constants
+DONE = False
+CANSPAWNPAWNS = True # 
+CANSPAWNKNIGHTS = True
+CANSPAWNBISHOPS = True
+CANSPAWNROOKS = True
+CANSPAWNQUEENS = True
+CANSPAWNKINGS = True
+
+#Space Constants
 ALLOWEDMOVE = pygame.Surface((45, 45))
 ALLOWEDMOVE.set_alpha(128)
 ALLOWEDMOVE.fill((79, 121, 66))
@@ -22,6 +37,7 @@ SELECTEDMOVE = pygame.Surface((45, 45))
 SELECTEDMOVE.set_alpha(192)
 SELECTEDMOVE.fill((255, 0, 0))
 
+#Array Constants
 PIECETYPES = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king']
 
 POSXLIST = [45, 90, 135, 180, 225, 270, 315, 360,
@@ -55,8 +71,8 @@ PAWNPOSLIST = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45), (135, 720),
                (720, 450), (720, 495), (720, 540), (720, 585),
                (720, 630), (720, 675)]
 
+#Function Constants
 _image_library = {}
-
 
 def GETIMAGE(path):
     global _image_library
@@ -84,6 +100,7 @@ def INCREASESTO2():
     S = 2
 
 
+#Class Constants
 class Button(pygame.Rect):
 
     def __init__(self, x, y, width, height, message, inactive_color, active_color, text_color):
