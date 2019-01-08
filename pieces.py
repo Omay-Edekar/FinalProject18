@@ -14,6 +14,124 @@ class Piece(pygame.sprite.Sprite):
         self.rect.x = rect_x
         self.rect.y = rect_y
         self.pos = (self.rect.x, self.rect.y)
+        self.type = None
+        self.direction = None
+
+    def move(self, screen, all_sprites_list):
+
+        move_spaces = []
+
+        pos_1 = (self.rect.x, self.rect.y - 45)
+        pos_2 = (self.rect.x + 45, self.rect.y)
+        pos_3 = (self.rect.x, self.rect.y + 45)
+        pos_4 = (self.rect.x - 45, self.rect.y)
+        
+        move_spaces.append(pos_1)
+        move_spaces.append(pos_2)
+        move_spaces.append(pos_3)
+        move_spaces.append(pos_4)
+
+        self.pos = random.choice(move_spaces)
+        self.rect.x = self.pos[0]
+        self.rect.y = self.pos[1]
+
+    def capture(self, player, screen, all_sprites_list):
+        if self.pos == player.pos:
+            all_sprites_list.remove(player)
+            player = None
+            constants.S = 'END'
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+
+
+class Enemy_Pawn(Piece):
+    def __init__(self, rect_x, rect_y):
+        super().__init__(rect_x, rect_y)
+        self.image = constants.GETIMAGE("pieces/pd.png")
+        self.type = 'pawn'
+        if self.rect.x == 45:
+            self.direction = 'right'
+        elif self.rect.x == 720:
+            self.direction = 'left'
+        elif self.rect.y == 45:
+            self.direction = 'down'
+        elif self.rect.y == 720:
+            self.direction = 'up'
+
+    def move(self, screen, all_sprites_list):
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+        if self.direction == 'right':
+            self.rect.x += 45
+        elif self.direction == 'left':
+            self.rect.x -= 45
+        elif self.direction == 'down':
+            self.rect.y += 45
+        elif self.direction == "up":
+            self.rect.y -= 45
+        self.pos = (self.rect.x, self.rect.y)
+
+    def turn(self, screen, all_sprites_list):
+        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
+        all_sprites_list.draw(screen)
+        if self.direction == 'right' and self.rect.x == 720:
+            self.direction = 'left'
+        elif self.direction == 'left' and self.rect.x == 45:
+            self.direction = 'right'
+        elif self.direction == 'down' and self.rect.y == 720:
+            self.direction = 'up'
+        elif self.direction == "up" and self.rect.y == 45:
+            self.direction = 'down'
+
+    def update_sprite(self):
+        if self.direction == 'up':
+            self.image = constants.GETIMAGE('pieces/pdu.png')
+        elif self.direction == 'down':
+            self.image = constants.GETIMAGE('pieces/pdd.png')
+        elif self.direction == 'left':
+            self.image = constants.GETIMAGE('pieces/pdl.png')
+        elif self.direction == 'right':
+            self.image = constants.GETIMAGE('pieces/pdr.png')
+
+
+# class Enemy_Knight(Piece):
+#     def __init__(self):
+#         super().__init__()
+#         self.image = constants.GETIMAGE("pieces/nd.png")
+#         self.type = 'knight'
+
+
+# class Enemy_Bishop(Piece):
+#     def __init__(self):
+#         super().__init__()
+#         self.image = constants.GETIMAGE("pieces/bd.png")
+#         self.type = 'bishop'
+
+
+# class Enemy_Rook(Piece):
+#     def __init__(self):
+#         super().__init__()
+#         self.image = constants.GETIMAGE("pieces/rd.png")
+#         self.type = 'rook'
+
+
+# class Enemy_Queen(Piece):
+#     def __init__(self):
+#         super().__init__()
+#         self.image = constants.GETIMAGE("pieces/qd.png")
+#         self.type = 'queen'
+
+
+# class Enemy_King(Piece):
+#     def __init__(self):
+#         super().__init__()
+#         self.image = constants.GETIMAGE("pieces/kd.png")
+#         self.type = 'king'
+
+
+class Player(Piece):
+    def __init__(self, rect_x, rect_y):
+        super().__init__(rect_x, rect_y)
         self.type = random.choice(constants.PIECETYPES)
         self.direction = None
 
@@ -687,20 +805,20 @@ class Piece(pygame.sprite.Sprite):
                     all_sprites_list.draw(screen)
 
                     constants.N = 0
-                    constants.C = 2
-
-    def capture(self, enemy_list, enemy_count, screen, all_sprites_list):
+                    constants.C = 3
+    
+    def capture(self, enemy_list, enemy_killed, screen, all_sprites_list):
         for enemy in enemy_list:
             if enemy.pos == self.pos:
-                enemy_count -= 1
-                self.type = enemy.type
+                enemy_killed += 1
+                self.type = random.choice(constants.PIECETYPES)
                 all_sprites_list.remove(enemy)
                 enemy_list.remove(enemy)
                 enemy = None
         screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
         all_sprites_list.draw(screen)
-        return enemy_count
-    
+        return enemy_killed
+
     def update_sprite(self):
         if self.type == 'pawn':
             self.image = constants.GETIMAGE('pieces/pl.png')
@@ -714,91 +832,3 @@ class Piece(pygame.sprite.Sprite):
             self.image = constants.GETIMAGE('pieces/ql.png')
         elif self.type == 'king':
             self.image = constants.GETIMAGE('pieces/kl.png')
-
-
-class Enemy_Pawn(Piece):
-    def __init__(self, rect_x, rect_y):
-        super().__init__(rect_x, rect_y)
-        self.image = constants.GETIMAGE("pieces/pd.png")
-        self.type = 'pawn'
-        if self.rect.x == 45:
-            self.direction = 'left'
-        elif self.rect.x == 720:
-            self.direction = 'right'
-        elif self.rect.y == 45:
-            self.direction = 'down'
-        elif self.rect.y == 720:
-            self.direction = 'up'
-
-    def move(self, screen, all_sprites_list):
-        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
-        all_sprites_list.draw(screen)
-        if self.direction == 'left':
-            self.rect.x += 45
-        elif self.direction == 'right':
-            self.rect.x -= 45
-        elif self.direction == 'down':
-            self.rect.y += 45
-        elif self.direction == "up":
-            self.rect.y -= 45
-        self.pos = (self.rect.x, self.rect.y)
-
-    def turn(self, screen, all_sprites_list):
-        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
-        all_sprites_list.draw(screen)
-        if self.direction == 'left' and self.rect.x == 720:
-            self.direction = 'right'
-        elif self.direction == 'right' and self.rect.x == 45:
-            self.direction = 'left'
-        elif self.direction == 'down' and self.rect.y == 720:
-            self.direction = 'up'
-        elif self.direction == "up" and self.rect.y == 45:
-            self.direction = 'down'
-
-    def capture(self, player, screen, all_sprites_list):
-        if self.pos == player.pos:
-            all_sprites_list.remove(player)
-            player = None
-            constants.S = 'END'
-        screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
-        all_sprites_list.draw(screen)
-
-
-# class Enemy_Knight(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/nd.png")
-#         self.type = 'knight'
-
-
-# class Enemy_Bishop(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/bd.png")
-#         self.type = 'bishop'
-
-
-# class Enemy_Rook(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/rd.png")
-#         self.type = 'rook'
-
-
-# class Enemy_Queen(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/qd.png")
-#         self.type = 'queen'
-
-
-# class Enemy_King(Piece):
-#     def __init__(self):
-#         super().__init__()
-#         self.image = constants.GETIMAGE("pieces/kd.png")
-#         self.type = 'king'
-
-
-# class Player(Piece):
-#     def __init__(self):
-#         super().__init__()
