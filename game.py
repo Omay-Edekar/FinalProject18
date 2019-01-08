@@ -3,15 +3,29 @@ import pieces
 import constants
 import random
 
-# initialize variables and game
+# initialize pygame variables
 pygame.init()
 screen = pygame.display.set_mode((810, 810))
 pygame.display.set_caption("Copycat Chess")
 pawn_list = pygame.sprite.Group()
 all_sprites_list = pygame.sprite.Group()
-pawn_count = 0
-turn = 1
 
+# counting variables
+pawn_count = 0
+knight_count = 0
+bishop_count = 0
+rook_count = 0
+queen_count = 0
+king_count = 0
+
+pawn_spawned = 0
+knight_spawned = 0
+bishop_spawned = 0
+rook_spawned = 0
+queen_spawned = 0
+king_spawned = 0
+
+# initialize buttons
 start_button = constants.Button(225, 495, 360, 90, "Controls", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
 play_button = constants.Button(225, 595, 360, 90, "Start Game", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
 
@@ -34,8 +48,15 @@ def turn_text(turn, pawn_count, screen):
     screen.blit(text_surface, text_rect)
 
 
-def pawn_spawn(num):
-    global pawn_count
+def spawn(num):
+    #declare global variables"
+    global pawn_spawned
+    global knight_spawned
+    global bishop_spawned
+    global rook_spawned
+    global queen_spawned
+    global king_spawned
+
     for i in range(num):
         # Set a random location for the block
         pos = random.choice(constants.PAWNPOSLIST)
@@ -113,29 +134,29 @@ while not constants.DONE:
         all_sprites_list.update(screen)
         all_sprites_list.draw(screen)
 
-        turn_text(turn, pawn_count, screen)
+        turn_text(constants.T, pawn_count, screen)
 
         if constants.C == -1:
-            pawn_spawn(16)
+            spawn(16)
             piece.update_sprite()
             constants.C = 0
 
         if constants.C == 1:
             piece.move(screen, all_sprites_list)
             piece.update_sprite()
-            turn_text(turn, pawn_count, screen)
+            turn_text(constants.T, pawn_count, screen)
 
         if constants.C == 2:
             pawn_count = piece.capture(pawn_list, pawn_count, screen, all_sprites_list)
             piece.update_sprite()
-            turn_text(turn, pawn_count, screen)
+            turn_text(constants.T, pawn_count, screen)
             constants.C = 3
 
         if constants.C == 3:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(constants.T, pawn_count, screen)
                 pygame.display.flip()
                 pygame.time.wait(1)
 
@@ -146,16 +167,17 @@ while not constants.DONE:
                 pawn.move(screen, all_sprites_list)
                 pawn.turn(screen, all_sprites_list)
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(constants.T, pawn_count, screen)
                 pygame.display.flip()
                 pygame.time.wait(25)
+
             constants.C = 5
 
         if constants.C == 5:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(constants.T, pawn_count, screen)
                 pygame.display.flip()
                 pygame.time.wait(1)
 
@@ -165,10 +187,10 @@ while not constants.DONE:
             for pawn in pawn_list:
                 pawn.capture(piece, screen, all_sprites_list)
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(constants.T, pawn_count, screen)
                 pygame.display.flip()
 
-            turn += 1
+            constants.T += 1
             constants.C = 0
 
     if constants.S == 'END':
