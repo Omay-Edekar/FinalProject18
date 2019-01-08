@@ -9,33 +9,34 @@ screen = pygame.display.set_mode((810, 810))
 pygame.display.set_caption("Copycat Chess")
 pawn_list = pygame.sprite.Group()
 all_sprites_list = pygame.sprite.Group()
-pawn_count = 0
+pawns_killed = 0
 turn = 1
 
 start_button = constants.Button(225, 495, 360, 90, "Controls", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
-play_button = constants.Button(225, 595, 360, 90, "Start Game", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
+play_button = constants.Button(225, 585, 360, 90, "Start Game", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
+play_again_button = constants.Button(225, 585, 360, 90, "Go To Menu", constants.BLACK, constants.LIGHTBLACK, constants.WHITE)
+
 
 # initialize pieces and players
-piece = pieces.Piece(405, 405)
-all_sprites_list.add(piece)
+player = pieces.Player(405, 405)
+all_sprites_list.add(player)
 
 
-def turn_text(turn, pawn_count, screen):
-    turn_font = pygame.font.Font('GaramondNo8-Regular.ttf', 15)
+def turn_text(turn, pawns_killed, screen):
+    turn_font = pygame.font.Font("GaramondNo8-Regular.ttf", 15)
     turn_number = "Turn #"
     turn_number += str(turn)
-    pawns_left = "Pawns left: "
-    pawns_left += str(pawn_count)
+    pawns_kill = "Pawns killed: "
+    pawns_kill += str(pawns_killed)
     text_surface, text_rect = constants.TEXTOBJECT(turn_number, paragraph_font, constants.BLACK)
     text_rect.center = (405/3, 45/2)
     screen.blit(text_surface, text_rect)
-    text_surface, text_rect = constants.TEXTOBJECT(pawns_left, paragraph_font, constants.BLACK)
+    text_surface, text_rect = constants.TEXTOBJECT(pawns_kill, paragraph_font, constants.BLACK)
     text_rect.center = (910/3, 45/2)
     screen.blit(text_surface, text_rect)
 
 
-def pawn_spawn(num):
-    global pawn_count
+def spawn(num):
     for i in range(num):
         # Set a random location for the block
         try:
@@ -53,11 +54,9 @@ def pawn_spawn(num):
             pawn_list.add(pawn)
             all_sprites_list.add(pawn)
 
-            pawn_count += 1
         except IndexError:
             pass
         
-
 
 # game play
 while not constants.DONE:
@@ -68,7 +67,7 @@ while not constants.DONE:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and constants.S == 2 and constants.C == 0:
                 constants.C = 1
-    if pawn_count == 0 and constants.S == 2:
+    if pawns_killed >= 60 and constants.S == 2:
         constants.S = 'END'
 
     if constants.S == 0:
@@ -78,7 +77,7 @@ while not constants.DONE:
         text_rect.center = (405, 300)
         screen.blit(text_surface, text_rect)
 
-        start_button.click(screen, constants.INCREASESTO1)
+        start_button.click(screen, constants.SETSTO1)
 
     if constants.S == 1:
         screen.fill(constants.WHITE)
@@ -92,7 +91,7 @@ while not constants.DONE:
         text_rect.center = (405, 360)
         screen.blit(text_surface, text_rect)
 
-        text_surface, text_rect = constants.TEXTOBJECT("Use Arrow Keys to select your move", paragraph_font, constants.BLACK)
+        text_surface, text_rect = constants.TEXTOBJECT("Use Left and Right Arrow Keys to select your move", paragraph_font, constants.BLACK)
         text_rect.center = (405, 405)
         screen.blit(text_surface, text_rect)
 
@@ -104,11 +103,11 @@ while not constants.DONE:
         text_rect.center = (405, 495)
         screen.blit(text_surface, text_rect)
 
-        text_surface, text_rect = constants.TEXTOBJECT("Objective: Capture all pawns", paragraph_font, constants.BLACK)
+        text_surface, text_rect = constants.TEXTOBJECT("Objective: Capture 60 pawns", paragraph_font, constants.BLACK)
         text_rect.center = (405, 540)
         screen.blit(text_surface, text_rect)
 
-        play_button.click(screen, constants.INCREASESTO2)
+        play_button.click(screen, constants.SETSTO2)
 
     if constants.S == 2:
 
@@ -117,34 +116,38 @@ while not constants.DONE:
         all_sprites_list.update(screen)
         all_sprites_list.draw(screen)
 
-        turn_text(turn, pawn_count, screen)
+        turn_text(turn, pawns_killed, screen)
+
+        if constants.C == -1:
+            spawn(16)
+            player.update_sprite()
+            for pawn in pawn_list:
+                pawn.update_sprite()
+            constants.C = 0
 
         if constants.C == 1:
             if turn % 4 == 0:
-                pawn_spawn(4)
+                spawn(4)
+                for pawn in pawn_list:
+                    pawn.update_sprite()
             constants.C = 2
 
-        if constants.C == -1:
-            pawn_spawn(16)
-            piece.update_sprite()
-            constants.C = 0
-
         if constants.C == 2:
-            piece.move(screen, all_sprites_list)
-            piece.update_sprite()
-            turn_text(turn, pawn_count, screen)
+            player.move(screen, all_sprites_list)
+            player.update_sprite()
+            turn_text(turn, pawns_killed, screen)
 
         if constants.C == 3:
-            pawn_count = piece.capture(pawn_list, pawn_count, screen, all_sprites_list)
-            piece.update_sprite()
-            turn_text(turn, pawn_count, screen)
+            pawns_killed = player.capture(pawn_list, pawns_killed, screen, all_sprites_list)
+            player.update_sprite()
+            turn_text(turn, pawns_killed, screen)
             constants.C = 4
 
         if constants.C == 4:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(turn, pawns_killed, screen)
                 pygame.display.flip()
                 pygame.time.wait(1)
 
@@ -155,16 +158,17 @@ while not constants.DONE:
                 pawn.move(screen, all_sprites_list)
                 pawn.turn(screen, all_sprites_list)
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(turn, pawns_killed, screen)
+                pawn.update_sprite()
                 pygame.display.flip()
-                pygame.time.wait(25)
+                pygame.time.wait(50)
             constants.C = 6
 
         if constants.C == 6:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(turn, pawns_killed, screen)
                 pygame.display.flip()
                 pygame.time.wait(1)
 
@@ -172,30 +176,35 @@ while not constants.DONE:
 
         if constants.C == 7:
             for pawn in pawn_list:
-                pawn.capture(piece, screen, all_sprites_list)
+                pawn.capture(player, screen, all_sprites_list)
                 all_sprites_list.draw(screen)
-                turn_text(turn, pawn_count, screen)
+                turn_text(turn, pawns_killed, screen)
                 pygame.display.flip()
 
             turn += 1
             constants.C = 0
 
     if constants.S == 'END':
-        if pawn_count > 0:
+        if pawns_killed < 60:
             screen.fill(constants.WHITE)
-            title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)
+            title_font = pygame.font.Font("GaramondNo8-Regular.ttf", 90)
             text_surface, text_rect = constants.TEXTOBJECT("You Lose", title_font, constants.BLACK)
             text_rect.center = (405, 360)
             screen.blit(text_surface, text_rect)
             text_surface1, text_rect1 = constants.TEXTOBJECT(":(", title_font, constants.BLACK)
             text_rect1.center = (405, 450)
             screen.blit(text_surface1, text_rect1)
+
+            play_again_button.click(screen, constants.SETSTO0)
+
         else:
             screen.fill(constants.WHITE)
-            title_font = pygame.font.Font('GaramondNo8-Regular.ttf', 90)
+            title_font = pygame.font.Font("GaramondNo8-Regular.ttf", 90)
             text_surface, text_rect = constants.TEXTOBJECT("You Win!", title_font, constants.BLACK)
             text_rect.center = (405, 383)
             screen.blit(text_surface, text_rect)
+
+            play_again_button.click(screen, constants.SETSTO0)
 
     pygame.display.flip()
     constants.CLOCK.tick(15)
