@@ -687,13 +687,13 @@ class Piece(pygame.sprite.Sprite):
                     all_sprites_list.draw(screen)
 
                     constants.N = 0
-                    constants.C = 2
+                    constants.C = 3
 
     def capture(self, enemy_list, enemy_count, screen, all_sprites_list):
         for enemy in enemy_list:
             if enemy.pos == self.pos:
                 enemy_count -= 1
-                self.type = enemy.type
+                self.type = random.choice(constants.PIECETYPES) #enemy.type
                 all_sprites_list.remove(enemy)
                 enemy_list.remove(enemy)
                 enemy = None

@@ -38,21 +38,25 @@ def pawn_spawn(num):
     global pawn_count
     for i in range(num):
         # Set a random location for the block
-        pos = random.choice(constants.PAWNPOSLIST)
-        rect_x = pos[0]
-        rect_y = pos[1]
+        try:
+            pos = random.choice(constants.PAWNPOSLIST)
+            rect_x = pos[0]
+            rect_y = pos[1]
 
-        # removes possible position
-        constants.PAWNPOSLIST.remove(pos)
+            # removes possible position
+            constants.PAWNPOSLIST.remove(pos)
 
-        # This represents a pawn
-        pawn = pieces.Enemy_Pawn(rect_x, rect_y)
+            # This represents a pawn
+            pawn = pieces.Enemy_Pawn(rect_x, rect_y)
 
-        # Add the block to the list of objects
-        pawn_list.add(pawn)
-        all_sprites_list.add(pawn)
+            # Add the block to the list of objects
+            pawn_list.add(pawn)
+            all_sprites_list.add(pawn)
 
-        pawn_count += 1
+            pawn_count += 1
+        except IndexError:
+            pass
+        
 
 
 # game play
@@ -115,23 +119,28 @@ while not constants.DONE:
 
         turn_text(turn, pawn_count, screen)
 
+        if constants.C == 1:
+            if turn % 4 == 0:
+                pawn_spawn(4)
+            constants.C = 2
+
         if constants.C == -1:
             pawn_spawn(16)
             piece.update_sprite()
             constants.C = 0
 
-        if constants.C == 1:
+        if constants.C == 2:
             piece.move(screen, all_sprites_list)
             piece.update_sprite()
             turn_text(turn, pawn_count, screen)
 
-        if constants.C == 2:
+        if constants.C == 3:
             pawn_count = piece.capture(pawn_list, pawn_count, screen, all_sprites_list)
             piece.update_sprite()
             turn_text(turn, pawn_count, screen)
-            constants.C = 3
+            constants.C = 4
 
-        if constants.C == 3:
+        if constants.C == 4:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
@@ -139,9 +148,9 @@ while not constants.DONE:
                 pygame.display.flip()
                 pygame.time.wait(1)
 
-            constants.C = 4
+            constants.C = 5
 
-        if constants.C == 4:
+        if constants.C == 5:
             for pawn in pawn_list:
                 pawn.move(screen, all_sprites_list)
                 pawn.turn(screen, all_sprites_list)
@@ -149,9 +158,9 @@ while not constants.DONE:
                 turn_text(turn, pawn_count, screen)
                 pygame.display.flip()
                 pygame.time.wait(25)
-            constants.C = 5
+            constants.C = 6
 
-        if constants.C == 5:
+        if constants.C == 6:
             for i in range(50):
                 screen.blit(constants.GETIMAGE("chessboard.png"), (0, 0))
                 all_sprites_list.draw(screen)
@@ -159,9 +168,9 @@ while not constants.DONE:
                 pygame.display.flip()
                 pygame.time.wait(1)
 
-            constants.C = 6
+            constants.C = 7
 
-        if constants.C == 6:
+        if constants.C == 7:
             for pawn in pawn_list:
                 pawn.capture(piece, screen, all_sprites_list)
                 all_sprites_list.draw(screen)
