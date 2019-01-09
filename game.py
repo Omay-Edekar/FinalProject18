@@ -26,7 +26,7 @@ while not variables.done:
         if key[pygame.K_SPACE] and variables.phase == 3 and variables.queue == 0:
             variables.queue = 1
 
-    if variables.pawns_killed >= 60 and variables.phase == 2:
+    if variables.pawns_killed >= 60 and variables.phase == 3:
         variables.phase = 'END'
 
     if variables.phase == 1:
