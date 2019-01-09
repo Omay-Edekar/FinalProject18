@@ -197,7 +197,7 @@ while not constants.DONE:
                 turn_text(turn, pawns_killed, screen)
                 pygame.display.flip()
 
-            constants.T += 1
+            turn += 1
             constants.C = 0
 
     if constants.S == 'END':

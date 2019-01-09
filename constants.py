@@ -11,7 +11,6 @@ CLOCK = pygame.time.Clock()
 N = 0
 C = -1
 S = 0
-T = 1
 
 #Color Constants
 WHITE = (232, 221, 201)
