@@ -62,6 +62,15 @@ def header_text():
     variables.screen.blit(text_surface, text_rect)
 
 
+def spawn_player():
+    pos_list = [(405, 405)]
+    pos = random.choice(pos_list)
+    player = classes.Player(pos[0], pos[1])
+    player.update_sprite()
+    variables.all_sprites_list.add(player)
+    return player
+
+
 def spawn_pawns(num):
     for i in range(num):
         try:
@@ -79,64 +88,62 @@ def spawn_pawns(num):
         except IndexError:
             pass
 
-def reset_game(player):
+def reset_game():
 
-    for pawn in variables.pawn_list:
-        del pawn
+    for piece in variables.all_sprites_list:
+        del piece
 
-    del player
+    variables.array_index = 0
+    variables.queue = -1
+    variables.phase = 1
+    variables.turn = 1
 
-    array_index = 0
-    queue = -1
-    phase = 1
-    turn = 1
-    
-    pawns_count = 0
-    # knights_count = 0
-    # bishops_count = 0
-    # rooks_count = 0
-    # queens_count = 0
-    # kings_count = 0
+    variables.pawns_count = 0
+    # variables.knights_count = 0
+    # variables.bishops_count = 0
+    # variables.rooks_count = 0
+    # variables.queens_count = 0
+    # variables.kings_count = 0
 
-    pawns_spawned = 0
-    # knights_spawned = 0
-    # bishops_spawned = 0
-    # rooks_spawned = 0
-    # queens_spawned = 0
-    # kings_spawned = 0
+    variables. pawns_spawned = 0
+    # variables.knights_spawned = 0
+    # variables.bishops_spawned = 0
+    # variables.rooks_spawned = 0
+    # variables.queens_spawned = 0
+    # variables.kings_spawned = 0
 
-    pawns_killed = 0
-    # knights_killed = 0
-    # bishops_killed = 0
-    # rooks_killed = 0
-    # queens_killed = 0
-    # kings_killed = 0
+    variables.pawns_killed = 0
+    # variables.knights_killed = 0
+    # variables.bishops_killed = 0
+    # variables.rooks_killed = 0
+    # variables.queens_killed = 0
+    # variables.kings_killed = 0
 
-    all_sprites_list = pygame.sprite.Group()
-    pawn_list = pygame.sprite.Group()
-    # knight_list = pygame.sprite.Group()
-    # bishop_list = pygame.sprite.Group()
-    # rook_list = pygame.sprite.Group()
-    # queen_list = pygame.sprite.Group()
-    # king_list = pygame.sprite.Group()
+    variables.all_sprites_list = pygame.sprite.Group()
+    variables.pawn_list = pygame.sprite.Group()
+    # variables.knight_list = pygame.sprite.Group()
+    # variables.bishop_list = pygame.sprite.Group()
+    # variables.rook_list = pygame.sprite.Group()
+    # variables.queen_list = pygame.sprite.Group()
+    # variables.king_list = pygame.sprite.Group()
 
-    done = False
-    can_spawn_pawns = True
-    # can_spawn_knights = True
-    # can_spawn_bishops = True
-    # can_spawn_rooks = True
-    # can_spawn_queens = True
-    # can_spawn_kings = True
+    variables.done = False
+    variables.can_spawn_pawns = True
+    # variables.can_spawn_knights = True
+    # variables.can_spawn_bishops = True
+    # variables.can_spawn_rooks = True
+    # variables.can_spawn_queens = True
+    # variables.can_spawn_kings = True
 
-    piece_types = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king']
+    variables.piece_types = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king']
 
-    x_position_list = [45, 90, 135, 180, 225, 270, 315,
+    variables.x_position_list = [45, 90, 135, 180, 225, 270, 315,
                        360, 405, 450, 495, 540, 585, 630, 675, 720]
 
-    y_position_list = [45, 90, 135, 180, 225, 270, 315,
+    variables.y_position_list = [45, 90, 135, 180, 225, 270, 315,
                        360, 405, 450, 495, 540, 585, 630, 675, 720]
 
-    position_list = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45),
+    variables.position_list = [(45, 45), (45, 720), (90, 45), (90, 720), (135, 45),
                      (135, 720), (180, 45), (180, 720), (225, 45),
                      (225, 720), (270, 45), (270, 720), (315, 45),
                      (315, 720), (360, 45), (360, 720), (405, 45),
@@ -152,14 +159,13 @@ def reset_game(player):
                      (720, 405), (720, 450), (720, 495), (720, 540),
                      (720, 585), (720, 630), (720, 675)]
 
-    pawn_spawn_position_list = [(45, 45), (45, 720), (90, 45), (90, 720),
-                                (135, 45), (135, 720), (180, 45), (180, 720),
-                                (225, 45), (225, 720), (270, 45), (270, 720),
-                                (315, 45), (315, 720), (360, 45), (360, 720),
-                                (405, 45), (405, 720), (450, 45), (450, 720),
-                                (495, 45), (495, 720), (540, 45), (540, 720),
-                                (585, 45), (585, 720), (630, 45), (630, 720),
-                                (675, 45), (675, 720), (720, 45), (720, 720),
+    variables.pawn_spawn_position_list = [(90, 45), (90, 720), (135, 45), (135, 720),
+                                (180, 45), (180, 720), (225, 45), (225, 720),
+                                (270, 45), (270, 720), (315, 45), (315, 720),
+                                (360, 45), (360, 720), (405, 45), (405, 720),
+                                (450, 45), (450, 720), (495, 45), (495, 720),
+                                (540, 45), (540, 720), (585, 45), (585, 720),
+                                (630, 45), (630, 720), (675, 45), (675, 720),
                                 (45, 90), (45, 135), (45, 180), (45, 225),
                                 (45, 270), (45, 315), (45, 360), (45, 405),
                                 (45, 450), (45, 495), (45, 540), (45, 585),

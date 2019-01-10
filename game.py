@@ -11,9 +11,6 @@ start_button = classes.Button(225, 495, 360, 90, "Controls", variables.BLACK, va
 play_button = classes.Button(225, 585, 360, 90, "Start Game", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 play_again_button = classes.Button(225, 585, 360, 90, "Go To Menu", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 
-player = classes.Player(405, 405)
-variables.all_sprites_list.add(player)
-
 while not variables.done:
 
     key = pygame.key.get_pressed()
@@ -22,12 +19,6 @@ while not variables.done:
 
         if event.type == pygame.QUIT:
             variables.done = True
-
-        if key[pygame.K_SPACE] and variables.phase == 3 and variables.queue == 0:
-            variables.queue = 1
-
-    if variables.pawns_killed >= 60 and variables.phase == 3:
-        variables.phase = 'END'
 
     if variables.phase == 1:
         variables.screen.fill(variables.WHITE)
@@ -42,7 +33,7 @@ while not variables.done:
         functions.render_text(30, "Press Space to start each turn", variables.BLACK, 405, 360)
         functions.render_text(30, "Use the Left and Right Arrow Keys to select your move", variables.BLACK, 405, 405)
         functions.render_text(30, "Press Enter to confirm your move", variables.BLACK, 405, 450)
-        functions.render_text(30, "Objective: Capture 60 pawns", variables.BLACK, 405, 595)
+        functions.render_text(30, "Objective: Capture 56 pawns", variables.BLACK, 405, 595)
 
         play_button.click(functions.sets_phase_to_three)
 
@@ -52,7 +43,14 @@ while not variables.done:
         variables.all_sprites_list.draw(variables.screen)
         functions.header_text()
 
+        if variables.pawns_killed >= 56:
+            variables.phase = 'END'
+
+        if key[pygame.K_SPACE] and  variables.queue == 0:
+            variables.queue = 1
+
         if variables.queue == -1:
+            player = functions.spawn_player()
             functions.spawn_pawns(16)
             player.update_sprite()
             for pawn in variables.pawn_list:
@@ -103,11 +101,15 @@ while not variables.done:
             variables.screen.fill(variables.WHITE)
             functions.render_text(90, "You Lose", variables.BLACK, 405, 360)
             functions.render_text(90, ":(", variables.BLACK, 405, 450)
-            play_again_button.click(functions.reset_game(player))
+            play_again_button.click(functions.reset_game)
         else:
             variables.screen.fill(variables.WHITE)
             functions.render_text(90, "You Win!", variables.BLACK, 405, 360)
-            play_again_button.click(functions.reset_game(player))
+            you_won_in_turns = "You won in "
+            you_won_in_turns += str(variables.turn)
+            you_won_in_turns += " turns!"
+            functions.render_text(90, you_won_in_turns, 405, 450)
+            play_again_button.click(functions.reset_game)
             
     pygame.display.flip()
     variables.clock.tick(15)
