@@ -52,19 +52,26 @@ def header_text():
     pawns_killed = "Pawns killed: "
     pawns_killed += str(variables.pawns_killed)
 
+    lives_left = "Lives: "
+    lives_left += "*" * variables.lives 
+
     text_surface, text_rect = text_object(turn, header_font, variables.BLACK)
-    text_rect.center = (405/3, 45/2)
+    text_rect.center = (135, 45/2)
     variables.screen.blit(text_surface, text_rect)
 
     text_surface, text_rect = text_object(pawns_killed,
                                           header_font, variables.BLACK)
-    text_rect.center = (910/3, 45/2)
+    text_rect.center = (315, 45/2)
+    variables.screen.blit(text_surface, text_rect)
+
+    text_surface, text_rect = text_object(lives_left,
+                                          header_font, variables.BLACK)
+    text_rect.center = (585, 45/2)
     variables.screen.blit(text_surface, text_rect)
 
 
 def spawn_player():
-    pos_list = [(405, 405)]
-    pos = random.choice(pos_list)
+    pos = random.choice(variables.player_spawn_locations)
     player = classes.Player(pos[0], pos[1])
     player.update_sprite()
     variables.all_sprites_list.add(player)
@@ -85,6 +92,8 @@ def spawn_pawns(num):
             variables.pawn_list.add(pawn)
             variables.all_sprites_list.add(pawn)
 
+            variables.pawns_spawned += 1
+
         except IndexError:
             pass
 
@@ -97,6 +106,8 @@ def reset_game():
     variables.queue = -1
     variables.phase = 1
     variables.turn = 1
+    variables.capture_turns = 0
+    variables.lives = 3
 
     variables.pawns_count = 0
     # variables.knights_count = 0

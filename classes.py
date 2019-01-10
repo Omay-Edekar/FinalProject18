@@ -76,8 +76,11 @@ class Piece(pygame.sprite.Sprite):
 
         if self.pos == player.pos:
             variables.all_sprites_list.remove(player)
-            player.type = 'dead'
-            variables.phase = 'END'
+            variables.lives -= 1
+            player.pos = random.choice(variables.player_spawn_locations)
+            player.rect.x = player.pos[0]
+            player.rect.y = player.pos[1]
+            player.get_new_type('no lives lost')
 
         variables.screen.blit(functions.get_image("chessboard.png"), (0, 0))
         variables.all_sprites_list.draw(variables.screen)
@@ -779,16 +782,24 @@ class Player(Piece):
 
     def capture(self):
 
+        captured_pawn = False
+
         for pawn in variables.pawn_list:
 
             if pawn.pos == self.pos:
 
+                captured_pawn = True
                 variables.pawns_killed += 1
-                self.type = random.choice(variables.piece_types)
+                self.get_new_type('no lives lost')
                 self.direction = None
                 variables.all_sprites_list.remove(pawn)
                 variables.pawn_list.remove(pawn)
                 pawn = None
+
+        if captured_pawn:
+            variables.capture_turns = 0
+        else:
+            variables.capture_turns += 1            
 
         variables.screen.blit(functions.get_image("chessboard.png"), (0, 0))
         variables.all_sprites_list.draw(variables.screen)
@@ -812,6 +823,18 @@ class Player(Piece):
 
         elif self.type == 'king':
             self.image = functions.get_image('pieces/kl.png')
+
+    def get_new_type(self, why = None):
+
+        if (variables.capture_turns % 16 == 0 and variables.capture_turns != 0) or why == 'no lives lost' or why == 'lives lost':
+            if why != 'no lives lost':
+                variables.lives -= 1
+            variables.capture_turns = 0
+            variables.piece_types.remove(self.type)
+            piece_type = random.choice(variables.piece_types)
+            variables.piece_types.append(self.type)
+            self.type = piece_type
+            self.update_sprite()
 
 
 class EnemyPawn(Piece):

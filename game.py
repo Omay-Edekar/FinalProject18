@@ -9,6 +9,7 @@ pygame.display.set_caption("Attack of the Pawns")
 
 start_button = classes.Button(225, 495, 360, 90, "Controls", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 play_button = classes.Button(225, 585, 360, 90, "Start Game", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+reset_button = classes.Button(315, 675, 180, 90, "Reset", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 play_again_button = classes.Button(225, 585, 360, 90, "Go To Menu", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 
 while not variables.done:
@@ -25,6 +26,8 @@ while not variables.done:
         functions.render_text(80, "Attack of the Pawns", variables.BLACK, 405, 300)
 
         start_button.click(functions.sets_phase_to_two)
+        # reset_button.click(functions.reset_game)
+
 
     if variables.phase == 2:
         variables.screen.fill(variables.WHITE)
@@ -36,6 +39,7 @@ while not variables.done:
         functions.render_text(30, "Objective: Capture 56 pawns", variables.BLACK, 405, 595)
 
         play_button.click(functions.sets_phase_to_three)
+        # reset_button.click(functions.reset_game)
 
     if variables.phase == 3:
 
@@ -45,6 +49,12 @@ while not variables.done:
 
         if variables.pawns_killed >= 56:
             variables.phase = 'END'
+            variables.queue = 'SKIP'
+
+        if variables.lives <= 0:
+            variables.phase = 'END'
+            variables.queue = 'SKIP'
+            variables.all_sprites_list.remove(player)
 
         if key[pygame.K_SPACE] and  variables.queue == 0:
             variables.queue = 1
@@ -58,8 +68,8 @@ while not variables.done:
             variables.queue = 0
         
         if variables.queue == 1:
-            if variables.turn % 4 == 0:
-                functions.spawn_pawns(4)
+            if variables.turn % 1 == 0:
+                functions.spawn_pawns(1)
                 for pawn in variables.pawn_list:
                     pawn.update_sprite()
             variables.queue = 2
@@ -92,6 +102,9 @@ while not variables.done:
                 variables.all_sprites_list.draw(variables.screen)
                 functions.header_text()
                 pygame.display.flip()
+            player.get_new_type()
+            variables.all_sprites_list.add(player)
+            variables.all_sprites_list.draw(variables.screen)
 
             variables.turn += 1
             variables.queue = 0
