@@ -35,7 +35,7 @@ class Button(pygame.Rect):
 
         button_font = pygame.font.Font(variables.font, 45)
         text_surface, text_rect = functions.text_object(self.message,
-                                             button_font, self.text_color)
+                                                        button_font, self.text_color)
         text_rect.center = ((self.x + (self.width / 2)),
                             (self.y + (self.height / 2)))
         variables.screen.blit(text_surface, text_rect)
@@ -750,7 +750,7 @@ class Player(Piece):
         if key[pygame.K_RETURN]:
 
             variables.screen.blit(functions.get_image
-                                          ("chessboard.png"), (0, 0))
+                                  ("chessboard.png"), (0, 0))
             variables.all_sprites_list.draw(variables.screen)
             pygame.display.flip()
 
@@ -774,7 +774,8 @@ class Player(Piece):
             self.rect.y = move_spaces[variables.array_index][1]
             self.pos = move_spaces[variables.array_index]
 
-            variables.screen.blit(functions.get_image("chessboard.png"), (0, 0))
+            variables.screen.blit(functions.get_image
+                                  ("chessboard.png"), (0, 0))
             variables.all_sprites_list.draw(variables.screen)
 
             variables.array_index = 0
@@ -799,7 +800,7 @@ class Player(Piece):
         if captured_pawn:
             variables.capture_turns = 0
         else:
-            variables.capture_turns += 1            
+            variables.capture_turns += 1
 
         variables.screen.blit(functions.get_image("chessboard.png"), (0, 0))
         variables.all_sprites_list.draw(variables.screen)
@@ -824,7 +825,7 @@ class Player(Piece):
         elif self.type == 'king':
             self.image = functions.get_image('pieces/kl.png')
 
-    def get_new_type(self, why = None):
+    def get_new_type(self, why=None):
 
         if (variables.capture_turns % 16 == 0 and variables.capture_turns != 0) or why == 'no lives lost' or why == 'lives lost':
             if why != 'no lives lost':

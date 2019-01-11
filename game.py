@@ -28,7 +28,6 @@ while not variables.done:
         start_button.click(functions.sets_phase_to_two)
         # reset_button.click(functions.reset_game)
 
-
     if variables.phase == 2:
         variables.screen.fill(variables.WHITE)
 
@@ -56,7 +55,7 @@ while not variables.done:
             variables.queue = 'SKIP'
             variables.all_sprites_list.remove(player)
 
-        if key[pygame.K_SPACE] and  variables.queue == 0:
+        if key[pygame.K_SPACE] and variables.queue == 0:
             variables.queue = 1
 
         if variables.queue == -1:
@@ -66,14 +65,14 @@ while not variables.done:
             for pawn in variables.pawn_list:
                 pawn.update_sprite()
             variables.queue = 0
-        
+
         if variables.queue == 1:
             if variables.turn % 1 == 0:
                 functions.spawn_pawns(1)
                 for pawn in variables.pawn_list:
                     pawn.update_sprite()
             variables.queue = 2
-        
+
         if variables.queue == 2:
             player.move()
             player.update_sprite()
@@ -95,7 +94,7 @@ while not variables.done:
                 pygame.display.flip()
                 pygame.time.wait(50)
             variables.queue = 5
-        
+
         if variables.queue == 5:
             for pawn in variables.pawn_list:
                 pawn.capture(player)
@@ -123,6 +122,6 @@ while not variables.done:
             you_won_in_turns += " turns!"
             functions.render_text(90, you_won_in_turns, 405, 450)
             play_again_button.click(functions.reset_game)
-            
+
     pygame.display.flip()
     variables.clock.tick(15)
