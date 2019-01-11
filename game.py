@@ -91,7 +91,7 @@ while not variables.done:
                 variables.all_sprites_list.draw(variables.screen)
                 functions.header_text()
                 pygame.display.flip()
-                pygame.time.wait(50)
+                # pygame.time.wait(50)
             variables.queue = 5
 
         if variables.queue == 5:
@@ -108,7 +108,7 @@ while not variables.done:
             variables.queue = 0
 
     if variables.phase == 'END':
-        if variables.pawns_killed < 60:
+        if variables.pawns_killed < 56:
             variables.screen.fill(variables.WHITE)
             functions.render_text(90, "You Lose", variables.BLACK, 405, 360)
             functions.render_text(90, ":(", variables.BLACK, 405, 450)
@@ -120,14 +120,14 @@ while not variables.done:
             you_won_in_turns = "You won in "
             you_won_in_turns += str(variables.turn)
             you_won_in_turns += " turns!"
-            functions.render_text(90, you_won_in_turns, 405, 360)
+            functions.render_text(90, you_won_in_turns, variables.BLACK, 405, 360)
 
             you_won_with_lives = "You won with "
             you_won_with_lives += str(variables.lives)
             you_won_with_lives += " lives left!"
-            functions.render_text(90, you_won_with_lives, 405, 360)
+            functions.render_text(90, you_won_with_lives, variables.BLACK, 405, 360)
 
             play_again_button.click(functions.reset_game)
 
     pygame.display.flip()
-    variables.clock.tick(15)
+    variables.clock.tick(10)
