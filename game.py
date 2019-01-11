@@ -35,7 +35,6 @@ while not variables.done:
         functions.render_text(30, "Press Space to start each turn", variables.BLACK, 405, 360)
         functions.render_text(30, "Use the Left and Right Arrow Keys to select your move", variables.BLACK, 405, 405)
         functions.render_text(30, "Press Enter to confirm your move", variables.BLACK, 405, 450)
-        functions.render_text(30, "Objective: Capture 56 pawns", variables.BLACK, 405, 595)
 
         play_button.click(functions.sets_phase_to_three)
         # reset_button.click(functions.reset_game)
@@ -116,11 +115,18 @@ while not variables.done:
             play_again_button.click(functions.reset_game)
         else:
             variables.screen.fill(variables.WHITE)
-            functions.render_text(90, "You Win!", variables.BLACK, 405, 360)
+            functions.render_text(90, "You Win!", variables.BLACK, 405, 270)
+
             you_won_in_turns = "You won in "
             you_won_in_turns += str(variables.turn)
             you_won_in_turns += " turns!"
-            functions.render_text(90, you_won_in_turns, 405, 450)
+            functions.render_text(90, you_won_in_turns, 405, 360)
+
+            you_won_with_lives = "You won with "
+            you_won_with_lives += str(variables.lives)
+            you_won_with_lives += " lives left!"
+            functions.render_text(90, you_won_with_lives, 405, 360)
+
             play_again_button.click(functions.reset_game)
 
     pygame.display.flip()
