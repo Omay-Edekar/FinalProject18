@@ -13,6 +13,7 @@ phase = 1
 turn = 1
 capture_turns = 0
 lives = 3
+win_number = 0
 
 pawns_count = 0
 # knights_count = 0

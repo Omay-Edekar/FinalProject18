@@ -43,6 +43,36 @@ def sets_phase_to_three():
     variables.phase = 3
 
 
+def difficulty_easy():
+    variables.win_number = 20
+    pawn_pos = []
+    for i in range(variables.win_number):
+        pos = random.choice(variables.pawn_spawn_position_list)
+        pawn_pos.append(pos)
+    variables.pawn_spawn_position_list = pawn_pos
+    variables.phase = 3
+
+
+def difficulty_medium():
+    variables.win_number = 40
+    pawn_pos = []
+    for i in range(variables.win_number):
+        pos = random.choice(variables.pawn_spawn_position_list)
+        pawn_pos.append(pos)
+    variables.pawn_spawn_position_list = pawn_pos
+    variables.phase = 3
+
+
+def difficulty_hard():
+    variables.win_number = 56
+    pawn_pos = []
+    for i in range(variables.win_number):
+        pos = random.choice(variables.pawn_spawn_position_list)
+        pawn_pos.append(pos)
+    variables.pawn_spawn_position_list = pawn_pos
+    variables.phase = 3
+
+
 def header_text():
     header_font = pygame.font.Font(variables.font, 30)
 
