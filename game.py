@@ -7,12 +7,12 @@ pygame.init()
 
 pygame.display.set_caption("Attack of the Pawns")
 
-start_button = classes.Button(225, 495, 360, 90, "Controls", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
-easy_button = classes.Button(90, 585, 180, 90, "Easy", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
-medium_button = classes.Button(315, 585, 180, 90, "Medium", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
-hard_button = classes.Button(540, 585, 180, 90, "Hard", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
-reset_button = classes.Button(315, 675, 180, 90, "Reset", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
-play_again_button = classes.Button(225, 585, 360, 90, "Go To Menu", variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+start_button = classes.Button(225, 495, 360, 90, "Controls and Directions", 'small', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+easy_button = classes.Button(90, 675, 180, 90, "Easy", 'regular', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+medium_button = classes.Button(315, 675, 180, 90, "Medium", 'regular', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+hard_button = classes.Button(540, 675, 180, 90, "Hard", 'regular', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+reset_button = classes.Button(315, 675, 180, 90, "Reset", 'regular', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
+play_again_button = classes.Button(225, 585, 360, 90, "Go To Menu", 'regular', variables.BLACK, variables.LIGHTBLACK, variables.WHITE)
 
 while not variables.done:
 
@@ -33,10 +33,17 @@ while not variables.done:
     if variables.phase == 2:
         variables.screen.fill(variables.WHITE)
 
-        functions.render_text(90, "Controls", variables.BLACK, 405, 225)
-        functions.render_text(30, "Press Space to start each turn", variables.BLACK, 405, 360)
-        functions.render_text(30, "Use the Left and Right Arrow Keys to select your move", variables.BLACK, 405, 405)
-        functions.render_text(30, "Press Enter to confirm your move", variables.BLACK, 405, 450)
+        functions.render_text(60, "Controls", variables.BLACK, 405, 45)
+        functions.render_text(30, "Press Space to start each turn", variables.BLACK, 405, 135)
+        functions.render_text(30, "Use the Left and Right Arrow Keys to select your move", variables.BLACK, 405, 180)
+        functions.render_text(30, "Press Enter to confirm your move", variables.BLACK, 405, 225)
+
+        functions.render_text(60, "Directions", variables.BLACK, 405, 315)
+        functions.render_text(30, "Kill all pawns to win", variables.BLACK, 405, 405)
+        functions.render_text(30, "Easy: 20 pawns   Medium: 40 pawns    Hard: 56 pawns", variables.BLACK, 405, 450)
+        functions.render_text(30, "If you get captured, you'll lose a life", variables.BLACK, 405, 495)
+        functions.render_text(30, "If you don't capture a pawn in 16 turns,", variables.BLACK, 405, 540)
+        functions.render_text(30, "you'll lose a life and change type", variables.BLACK, 405, 585)
 
         easy_button.click(functions.difficulty_easy)
         medium_button.click(functions.difficulty_medium)

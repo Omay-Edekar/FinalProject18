@@ -9,9 +9,10 @@ pygame.init()
 class Button(pygame.Rect):
 
     def __init__(self, x, y, width, height,
-                 message, inactive_color, active_color, text_color):
+                 message, font_size, inactive_color, active_color, text_color):
         super().__init__(x, y, width, height)
         self.message = message
+        self.font_size = font_size
         self.inactive_color = inactive_color
         self.active_color = active_color
         self.text_color = text_color
@@ -32,8 +33,10 @@ class Button(pygame.Rect):
         else:
             pygame.draw.rect(variables.screen, self.inactive_color,
                              (self.x, self.y, self.width, self.height))
-
-        button_font = pygame.font.Font(variables.font, 45)
+        if self.font_size == 'small':
+            button_font = pygame.font.Font(variables.font, 33)
+        if self.font_size == 'regular':
+            button_font = pygame.font.Font(variables.font, 45)
         text_surface, text_rect = functions.text_object(self.message,
                                                         button_font, self.text_color)
         text_rect.center = ((self.x + (self.width / 2)),
