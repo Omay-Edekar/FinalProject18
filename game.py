@@ -44,6 +44,7 @@ while not variables.done:
         functions.render_text(30, "If you get captured, you'll lose a life", variables.BLACK, 405, 495)
         functions.render_text(30, "If you don't capture a pawn in 16 turns,", variables.BLACK, 405, 540)
         functions.render_text(30, "you'll lose a life and change type", variables.BLACK, 405, 585)
+        functions.render_text(30, "IMPORTANT: Pawns only capture in front", variables.BLACK, 405, 630)
 
         easy_button.click(functions.difficulty_easy)
         medium_button.click(functions.difficulty_medium)
