@@ -1,9 +1,14 @@
-# Intro to Programming Final Project - Fall 2018
+# Attack of the Pawns
 
-* Project details are in description.md
-* Replace the content of this file with your own info about your project before the due date
-* Don't forget to fill out the [Project Proposal Form](https://airtable.com/shrrdA41unoBvi6Ki) before break.
+* Have to kill many, many pawns
+* Has easy, medium, and hard modes
+* Every time you kill a pawn, your piece type changes
+* Can you survive The Attack of the Pawns?
 
-## Setting Up Your Repo
+## Flowchart
+* https://drive.google.com/file/d/1trbhHhPABdC4rE5EHd8E7VCwyp9JTCIi/view?usp=sharing
 
-On the GitHub page for this repository, click the "Fork" button. This will create your own copy of this repository, linked to my original. Use the same cloning method we used before to clone the repository to your PythonAnywhere account
+## Citations
+* “Chapter 13: Introduction to Sprites.” Program Arcade Games With Python And Pygame, www.programarcadegames.com/index.phpchapter=introduction_to_sprites&lang=en.
+* “Nerd Paradise.” PyGame Tutorial: Fonts and Text : Nerd Paradise, www.nerdparadise.com/programming/pygame/part1.
+* “Pygame Front Page¶.” About - Pygame Wiki, www.pygame.org/docs/.
