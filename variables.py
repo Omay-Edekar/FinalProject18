@@ -15,6 +15,7 @@ capture_turns = 0
 lives = 3
 win_number = 0
 
+# amount of Pieces on Screen
 pawns_count = 0
 # knights_count = 0
 # bishops_count = 0
@@ -22,6 +23,7 @@ pawns_count = 0
 # queens_count = 0
 # kings_count = 0
 
+# amount of Pieces spawned
 pawns_spawned = 0
 # knights_spawned = 0
 # bishops_spawned = 0
@@ -29,6 +31,7 @@ pawns_spawned = 0
 # queens_spawned = 0
 # kings_spawned = 0
 
+# amount of Pieces killed
 pawns_killed = 0
 # knights_killed = 0
 # bishops_killed = 0

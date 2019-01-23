@@ -5,10 +5,12 @@ import random
 import variables
 import classes
 
+
 _image_library = {}
 
 
 def get_image(path):
+    """Grabs image"""
     global _image_library
     image = _image_library.get(path)
     if image is None:
@@ -17,33 +19,32 @@ def get_image(path):
         _image_library[path] = image
     return image
 
-
 def text_object(text, font, color):
     """Creates object for text to be created on"""
     text_surface = font.render(text, True, color)
     return text_surface, text_surface.get_rect()
 
-
 def render_text(font_size, text, color, x, y):
+    """function to render centered text"""
     font = pygame.font.Font(variables.font, font_size)
     text_surface, text_rect = text_object(text, font, color)
     text_rect.center = (x, y)
     variables.screen.blit(text_surface, text_rect)
 
-
 def sets_phase_to_one():
+    """sets variables.phase to 1 (Home Screen)"""
     variables.phase = 1
 
-
 def sets_phase_to_two():
+    """sets variables.phase to 2 (Controls and Directions)"""
     variables.phase = 2
 
-
 def sets_phase_to_three():
+    """sets variables.phase to 3 (Game)"""
     variables.phase = 3
 
-
 def difficulty_easy():
+    """reduces pawn_spawn_position_list to len 20"""
     variables.win_number = 20
     pawn_pos = []
     for i in range(variables.win_number):
@@ -52,8 +53,8 @@ def difficulty_easy():
     variables.pawn_spawn_position_list = pawn_pos
     variables.phase = 3
 
-
 def difficulty_medium():
+    """reduces pawn_spawn_position_list to len 40"""
     variables.win_number = 40
     pawn_pos = []
     for i in range(variables.win_number):
@@ -62,8 +63,8 @@ def difficulty_medium():
     variables.pawn_spawn_position_list = pawn_pos
     variables.phase = 3
 
-
 def difficulty_hard():
+    """keeps pawn_spawn_position_list len 56"""
     variables.win_number = 56
     pawn_pos = []
     for i in range(variables.win_number):
@@ -72,8 +73,8 @@ def difficulty_hard():
     variables.pawn_spawn_position_list = pawn_pos
     variables.phase = 3
 
-
 def header_text():
+    """renders text at top of board during game"""
     header_font = pygame.font.Font(variables.font, 30)
 
     turn = "Turn #"
@@ -99,16 +100,16 @@ def header_text():
     text_rect.center = (585, 45/2)
     variables.screen.blit(text_surface, text_rect)
 
-
 def spawn_player():
+    """spawns in player at beginning of game or after killed"""
     pos = random.choice(variables.player_spawn_locations)
     player = classes.Player(pos[0], pos[1])
     player.update_sprite()
     variables.all_sprites_list.add(player)
     return player
 
-
 def spawn_pawns(num):
+    """spawns in num amount of pawns from pawn_spawn_position_list"""
     for i in range(num):
         try:
             spawn_position = random.choice(variables.pawn_spawn_position_list)
@@ -127,9 +128,8 @@ def spawn_pawns(num):
         except IndexError:
             pass
 
-
 def reset_game():
-
+    """resets game and all variables after you play"""
     for piece in variables.all_sprites_list:
         del piece
 
